@@ -4,9 +4,13 @@ class VerticalSplitView extends StatefulWidget {
   final Widget left;
   final Widget right;
   final double ratio;
+  final bool resizeable;
 
   const VerticalSplitView(
-      {required this.left, required this.right, this.ratio = 0.2})
+      {required this.left,
+      required this.right,
+      this.ratio = 0.2,
+      this.resizeable = true})
       : assert(left != null),
         assert(right != null),
         assert(ratio >= 0),
@@ -44,6 +48,7 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
       assert(_ratio <= 1);
       assert(_ratio >= 0);
       if (_maxWidth == null) _maxWidth = constraints.maxWidth - _dividerWidth;
+      // _maxWidth = constraints.maxWidth - _dividerWidth;
       if (_maxWidth != constraints.maxWidth) {
         _maxWidth = constraints.maxWidth - _dividerWidth;
       }
@@ -63,18 +68,20 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
                 child: SizedBox(
                   width: _dividerWidth,
                   height: constraints.maxHeight,
-                  child: const RotationTransition(
-                    child: Icon(Icons.drag_handle),
-                    turns: AlwaysStoppedAnimation(0.25),
+                  child: const VerticalDivider(
+                    color: Colors.black,
+                    thickness: 1,
                   ),
                 ),
                 onPanUpdate: (DragUpdateDetails details) {
-                  setState(() {
-                    _ratio += details.delta.dx / _maxWidth;
-                    if (_ratio > 1)
-                      _ratio = 1;
-                    else if (_ratio < 0.0) _ratio = 0.0;
-                  });
+                  if (widget.resizeable) {
+                    setState(() {
+                      _ratio += details.delta.dx / _maxWidth;
+                      if (_ratio > 1)
+                        _ratio = 1;
+                      else if (_ratio < 0.0) _ratio = 0.0;
+                    });
+                  }
                 },
               ),
             ),
