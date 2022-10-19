@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:volt_dashboard/NavBar.dart';
+import 'package:volt_dashboard/navbar/NavBar.dart';
 import 'package:volt_dashboard/VerticalSplitview.dart';
 
 void main() {
@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
       home: const VerticalSplitView(
         left: Navbar(),
         right: MyHomePage(title: 'Flutter Demo Home Page'),
+        ratio: 0.1,
         resizeable: false,
       ),
     );
