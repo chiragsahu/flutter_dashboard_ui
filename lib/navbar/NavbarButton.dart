@@ -12,8 +12,23 @@ class NavbarButton extends StatefulWidget {
 class _NavbarButtonState extends State<NavbarButton> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(widget.text),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10.0, 12, 10, 2),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.calendar_month,
+            color: Colors.white,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              widget.text,
+              style: const TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
