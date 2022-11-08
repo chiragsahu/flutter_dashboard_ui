@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NavbarButton extends StatefulWidget {
   const NavbarButton(this.text, {Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _NavbarButtonState extends State<NavbarButton> {
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               widget.text,
-              style: const TextStyle(fontSize: 20, color: Colors.white),
+              style: GoogleFonts.inter(fontSize: 16, color: Colors.white),
             ),
           ),
         ],
