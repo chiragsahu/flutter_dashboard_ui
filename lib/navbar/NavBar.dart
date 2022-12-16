@@ -14,40 +14,33 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        color: Color.fromARGB(255, 30, 41, 55),
-        child: Center(
-          child: Column(
-            children: const [
-              // ListView.builder(
-              //     itemCount: 5,
-              //     shrinkWrap: true,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return Row(
-              //         children: [
-              //           Text("tile $index"),
-              //         ],
-              //       );
-              //     })
-              SizedBox(height: 10.0),
-              NavbarButton("Dashboard"),
-              NavbarButton("Kanban"),
-              NavbarButton("Messages"),
-              NavbarButton("Users Lists"),
-              NavbarButton("Transactions"),
-              NavbarButton("Task List"),
-              NavbarButton("Settings"),
-              NavbarButton("Calendar"),
-
-              NavbarButton("Dashboard"),
-              NavbarButton("Kanban"),
-              NavbarButton("Messages"),
-              NavbarButton("Users Lists"),
-              NavbarButton("Transactions"),
-              NavbarButton("Task List"),
-              NavbarButton("Settings"),
-              NavbarButton("Calendar"),
-            ],
+      child: Center(
+        child: Container(
+          color: Color.fromARGB(255, 30, 41, 55),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                NavbarButton("Dashboard"),
+                NavbarButton("Kanban"),
+                NavbarButton("Messages"),
+                NavbarButton("Users Lists"),
+                NavbarButton("Transactions"),
+                NavbarButton("Task List"),
+                NavbarButton("Settings"),
+                NavbarButton("Calendar"),
+            
+                NavbarButton("Dashboard"),
+                NavbarButton("Kanban"),
+                NavbarButton("Messages"),
+                NavbarButton("Users Lists"),
+                NavbarButton("Transactions"),
+                NavbarButton("Task List"),
+                NavbarButton("Settings"),
+                NavbarButton("Calendar"),
+              ],
+            ),
           ),
         ),
       ),

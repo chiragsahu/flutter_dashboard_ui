@@ -14,21 +14,37 @@ class _NavbarButtonState extends State<NavbarButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 12, 10, 2),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.calendar_month,
-            color: Colors.white,
+      padding: const EdgeInsets.fromLTRB(10.0, 5, 10, 2),
+      child: InkWell(
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.calendar_month,
+                color: Colors.white,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    child: Text(
+                      widget.text,
+                      style:
+                          GoogleFonts.inter(fontSize: 16, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              const Icon(
+                Icons.keyboard_arrow_right_sharp,
+                color: Colors.white,
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
-              widget.text,
-              style: GoogleFonts.inter(fontSize: 16, color: Colors.white),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

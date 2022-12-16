@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       home: const VerticalSplitView(
         left: Navbar(),
         right: MyHomePage(title: 'Flutter Demo Home Page'),
-        ratio: 0.1,
+        ratio: 0.14,
         resizeable: false,
       ),
     );
