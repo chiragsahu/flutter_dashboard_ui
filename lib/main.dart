@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
         left: Navbar(),
         right: MyHomePage(title: 'Flutter Demo Home Page'),
         ratio: 0.1,
-        resizeable: false,
+        resizeable: true,
+        resizeToExtent: false,
       ),
     );
   }

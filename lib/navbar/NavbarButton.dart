@@ -18,7 +18,7 @@ class _NavbarButtonState extends State<NavbarButton> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        print("constraint width is ${constraints.maxWidth}");
+        // print("constraint width is ${constraints.maxWidth}");
         return Padding(
           padding: const EdgeInsets.fromLTRB(5.0, 10, 5, 10),
           child: InkWell(

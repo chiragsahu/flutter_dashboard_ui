@@ -5,13 +5,19 @@ class VerticalSplitView extends StatefulWidget {
   final Widget right;
   final double ratio;
   final bool resizeable;
+  final bool resizeToExtent;
+  final double maxWidthRatio;
+  final double minWidthRatio;
 
-  const VerticalSplitView(
-      {required this.left,
-      required this.right,
-      this.ratio = 0.2,
-      this.resizeable = true})
-      : assert(left != null),
+  const VerticalSplitView({
+    required this.left,
+    required this.right,
+    this.ratio = 0.2,
+    this.maxWidthRatio = 0.5,
+    this.minWidthRatio = 0.1,
+    this.resizeable = true,
+    this.resizeToExtent = true,
+  })  : assert(left != null),
         assert(right != null),
         assert(ratio >= 0),
         assert(ratio <= 1);
@@ -28,7 +34,6 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
   late double _maxWidth = 1000;
 
   get _width1 => _ratio * _maxWidth;
-
   get _width2 => (1 - _ratio) * _maxWidth;
 
   @override
@@ -77,9 +82,19 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
                   if (widget.resizeable) {
                     setState(() {
                       _ratio += details.delta.dx / _maxWidth;
+                      print("dx is ${details.delta.dx}  ratio is $_ratio");
+                      if (!widget.resizeToExtent) {
+                        if (_ratio >= widget.maxWidthRatio)
+                          _ratio = widget.maxWidthRatio;
+
+                        if (_ratio <= widget.minWidthRatio)
+                          _ratio = widget.minWidthRatio;
+                      }
                       if (_ratio > 1)
                         _ratio = 1;
-                      else if (_ratio < 0.0) _ratio = 0.0;
+                      else if (_ratio < 0.0) {
+                        _ratio = 0.0;
+                      }
                     });
                   }
                 },
