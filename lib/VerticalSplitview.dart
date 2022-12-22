@@ -42,7 +42,7 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
   get _width1 => _ratio * _maxWidth;
   get _width2 => (1 - _ratio) * _maxWidth;
 
-  bool tapped = false;
+  bool resizeAnimation = false;
 
   @override
   void initState() {
@@ -71,21 +71,21 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                setState(() {
-                  tapped = !tapped;
-                  if (tapped) {
-                    _ratio = widget.maxWidthRatio;
-                  } else {
-                    _ratio = widget.minWidthRatio;
-                  }
-                });
+                if (resizeAnimation) {
+                  setState(() {
+                    resizeAnimation = !resizeAnimation;
+                    if (resizeAnimation) {
+                      _ratio = widget.maxWidthRatio;
+                    } else {
+                      _ratio = widget.minWidthRatio;
+                    }
+                  });
+                }
               },
               child: AnimatedContainer(
                 width: _width1,
                 duration: const Duration(milliseconds: 500),
-                child: SizedBox(
-                  child: widget.left,
-                ),
+                child: widget.left,
               ),
             ),
             MouseRegion(
@@ -127,10 +127,7 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
             AnimatedContainer(
               width: _width2,
               duration: const Duration(milliseconds: 500),
-              child: SizedBox(
-                width: _width2,
-                child: widget.right,
-              ),
+              child: widget.right,
             ),
           ],
         ),
@@ -138,5 +135,3 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
     });
   }
 }
-
-// https://medium.com/@leonar.d/how-to-create-a-flutter-split-view-7e2ac700ea12
