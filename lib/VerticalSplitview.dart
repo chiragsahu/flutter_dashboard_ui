@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum SplitViewMode { vertical, horizontal }
+
 class VerticalSplitView extends StatefulWidget {
   final Widget left;
   final Widget right;
@@ -8,16 +10,20 @@ class VerticalSplitView extends StatefulWidget {
   final bool resizeToExtent;
   final double maxWidthRatio;
   final double minWidthRatio;
+  final bool animated;
+  final SplitViewMode? splitViewMode;
 
-  const VerticalSplitView({
-    required this.left,
-    required this.right,
-    this.ratio = 0.2,
-    this.maxWidthRatio = 0.5,
-    this.minWidthRatio = 0.1,
-    this.resizeable = true,
-    this.resizeToExtent = true,
-  })  : assert(left != null),
+  const VerticalSplitView(
+      {required this.left,
+      required this.right,
+      this.ratio = 0.2,
+      this.maxWidthRatio = 0.5,
+      this.minWidthRatio = 0.1,
+      this.resizeable = true,
+      this.resizeToExtent = true,
+      this.splitViewMode = SplitViewMode.horizontal,
+      this.animated = false})
+      : assert(left != null),
         assert(right != null),
         assert(ratio >= 0),
         assert(ratio <= 1);
@@ -31,10 +37,12 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
 
   //from 0-1
   late double _ratio;
-  late double _maxWidth = 1000;
+  late double _maxWidth;
 
   get _width1 => _ratio * _maxWidth;
   get _width2 => (1 - _ratio) * _maxWidth;
+
+  bool tapped = false;
 
   @override
   void initState() {
@@ -47,7 +55,6 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
     final screenWidth = MediaQuery.of(context).size.width;
     setState(() {
       _maxWidth = screenWidth * 0.95;
-      // print(_maxWidth);
     });
     return LayoutBuilder(builder: (context, BoxConstraints constraints) {
       assert(_ratio <= 1);
@@ -62,12 +69,29 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
         width: constraints.maxWidth,
         child: Row(
           children: <Widget>[
-            SizedBox(
-              width: _width1,
-              child: widget.left,
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  tapped = !tapped;
+                  if (tapped) {
+                    _ratio = widget.maxWidthRatio;
+                  } else {
+                    _ratio = widget.minWidthRatio;
+                  }
+                });
+              },
+              child: AnimatedContainer(
+                width: _width1,
+                duration: const Duration(milliseconds: 500),
+                child: SizedBox(
+                  child: widget.left,
+                ),
+              ),
             ),
             MouseRegion(
-              cursor: SystemMouseCursors.resizeLeftRight,
+              cursor: widget.resizeable
+                  ? SystemMouseCursors.resizeLeftRight
+                  : MouseCursor.defer,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 child: SizedBox(
@@ -82,7 +106,7 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
                   if (widget.resizeable) {
                     setState(() {
                       _ratio += details.delta.dx / _maxWidth;
-                      print("dx is ${details.delta.dx}  ratio is $_ratio");
+                      // print("dx is ${details.delta.dx}  ratio is $_ratio");
                       if (!widget.resizeToExtent) {
                         if (_ratio >= widget.maxWidthRatio)
                           _ratio = widget.maxWidthRatio;
@@ -100,9 +124,13 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
                 },
               ),
             ),
-            SizedBox(
+            AnimatedContainer(
               width: _width2,
-              child: widget.right,
+              duration: const Duration(milliseconds: 500),
+              child: SizedBox(
+                width: _width2,
+                child: widget.right,
+              ),
             ),
           ],
         ),

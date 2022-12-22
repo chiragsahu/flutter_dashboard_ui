@@ -19,30 +19,38 @@ class _NavbarState extends State<Navbar> {
           color: Color.fromARGB(255, 30, 41, 55),
           child: Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                NavbarButton("Dashboard"),
-                NavbarButton("Kanban"),
-                NavbarButton("Messages"),
-                NavbarButton("Users Lists"),
-                NavbarButton("Transactions", hasDropdown: true),
-                NavbarButton("Task List"),
-                NavbarButton("Settings"),
-                NavbarButton("Calendar"),
-                NavbarButton("Dashboard"),
-                NavbarButton("Kanban"),
-                NavbarButton("Messages"),
-                NavbarButton("Users Lists"),
-                NavbarButton("Transactions"),
-                NavbarButton("Task List"),
-                NavbarButton(
-                  "Settings",
-                  hasDropdown: true,
-                ),
-                NavbarButton("Settings"),
-                NavbarButton("Calendar"),
-              ],
+            child: MouseRegion(
+              onEnter: (event) {
+                print("onEnter");
+              },
+              onExit: (event) {
+                print("exit");
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  NavbarButton("Dashboard"),
+                  NavbarButton("Kanban"),
+                  NavbarButton("Messages"),
+                  NavbarButton("Users Lists"),
+                  NavbarButton("Transactions", hasDropdown: true),
+                  NavbarButton("Task List"),
+                  NavbarButton("Settings"),
+                  NavbarButton("Calendar"),
+                  NavbarButton("Dashboard"),
+                  NavbarButton("Kanban"),
+                  NavbarButton("Messages"),
+                  NavbarButton("Users Lists"),
+                  NavbarButton("Transactions"),
+                  NavbarButton("Task List"),
+                  NavbarButton(
+                    "Settings",
+                    hasDropdown: true,
+                  ),
+                  NavbarButton("Settings"),
+                  NavbarButton("Calendar"),
+                ],
+              ),
             ),
           ),
         ),
