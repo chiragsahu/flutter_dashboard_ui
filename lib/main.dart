@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         right: MyHomePage(title: 'Title'),
         ratio: 0.12,
         maxWidthRatio: 0.24,
-        resizeable: false,
+        resizeable: true,
         resizeToExtent: false,
       ),
     );

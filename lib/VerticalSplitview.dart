@@ -124,11 +124,7 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
                 },
               ),
             ),
-            AnimatedContainer(
-              width: _width2,
-              duration: const Duration(milliseconds: 500),
-              child: widget.right,
-            ),
+            Expanded(child: widget.right),
           ],
         ),
       );
