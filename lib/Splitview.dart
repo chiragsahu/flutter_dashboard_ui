@@ -17,20 +17,15 @@ class SplitView extends StatefulWidget {
   final double maxWidthRatio;
   final SplitViewMode? splitViewMode;
 
-  SplitView(
-      {required this.left,
-      required this.right,
-      this.ratio = 0.2,
-      this.maxWidthRatio = 0.5,
-      this.minWidthRatio = 0.1,
-      // this.resizeable = true,
-      // this.resizeToExtent = true,
-      required this.splitViewMode,
-      required this.resizeType,
-      // this.animated = true,
-      // this.resizeAnimation = false
-      })
-      : assert(left != null),
+  SplitView({
+    required this.left,
+    required this.right,
+    this.ratio = 0.2,
+    this.maxWidthRatio = 0.5,
+    this.minWidthRatio = 0.1,
+    required this.splitViewMode,
+    required this.resizeType,
+  })  : assert(left != null),
         assert(right != null),
         assert(ratio >= 0 || ratio <= 1);
 
@@ -47,18 +42,15 @@ class _SplitViewState extends State<SplitView> {
   late int animationTime;
 
   get _width1 => _ratio * _maxWidth;
-  // get _width2 => (1 - _ratio) * _maxWidth;
 
   @override
   void initState() {
     super.initState();
     if (widget.resizeType == ResizeType.fixed) {
       widget.animated = false;
-    }
-    if (widget.resizeType != ResizeType.fixed) {
-      animationTime = 500;
-    } else {
       animationTime = 0;
+    } else {
+      animationTime = 500;
     }
     _ratio = widget.ratio;
   }
@@ -70,8 +62,7 @@ class _SplitViewState extends State<SplitView> {
       _maxWidth = screenWidth * 0.95;
     });
     return LayoutBuilder(builder: (context, BoxConstraints constraints) {
-      assert(_ratio <= 1);
-      assert(_ratio >= 0);
+      assert(_ratio >= 0 || _ratio <= 1);
       if (_maxWidth == null) _maxWidth = constraints.maxWidth - _dividerWidth;
       // _maxWidth = constraints.maxWidth - _dividerWidth;
       if (_maxWidth != constraints.maxWidth) {
