@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:volt_dashboard/navbar/NavBar.dart';
-import 'package:volt_dashboard/VerticalSplitview.dart';
+import 'package:volt_dashboard/Splitview.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +14,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const VerticalSplitView(
-        left: Navbar(),
-        right: MyHomePage(title: 'Title'),
+      home: SplitView(
+        resizeType: ResizeType.resizeWithAnimation,
+        splitViewMode: SplitViewMode.horizontal,
+        left: Navbar(
+          onNavBarHovered: (bool hovered) {
+            print(hovered);
+          },
+        ),
+        right: const MyHomePage(title: 'Title'),
         ratio: 0.12,
         maxWidthRatio: 0.24,
-        resizeable: true,
-        resizeToExtent: false,
       ),
     );
   }

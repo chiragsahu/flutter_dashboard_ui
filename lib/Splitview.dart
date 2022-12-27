@@ -2,51 +2,64 @@ import 'package:flutter/material.dart';
 
 enum SplitViewMode { vertical, horizontal }
 
-class VerticalSplitView extends StatefulWidget {
+enum ResizeType { fixed, resizeableToExtent, resizeWithAnimation }
+
+class SplitView extends StatefulWidget {
   final Widget left;
   final Widget right;
   final double ratio;
-  final bool resizeable;
-  final bool resizeToExtent;
-  final double maxWidthRatio;
+  final ResizeType resizeType;
+
+  bool isNavbarShrinked = false;
+  bool? animated;
+
   final double minWidthRatio;
-  final bool animated;
+  final double maxWidthRatio;
   final SplitViewMode? splitViewMode;
 
-  const VerticalSplitView(
+  SplitView(
       {required this.left,
       required this.right,
       this.ratio = 0.2,
       this.maxWidthRatio = 0.5,
       this.minWidthRatio = 0.1,
-      this.resizeable = true,
-      this.resizeToExtent = true,
-      this.splitViewMode = SplitViewMode.horizontal,
-      this.animated = false})
+      // this.resizeable = true,
+      // this.resizeToExtent = true,
+      required this.splitViewMode,
+      required this.resizeType,
+      // this.animated = true,
+      // this.resizeAnimation = false
+      })
       : assert(left != null),
         assert(right != null),
-        assert(ratio >= 0),
-        assert(ratio <= 1);
+        assert(ratio >= 0 || ratio <= 1);
 
   @override
-  _VerticalSplitViewState createState() => _VerticalSplitViewState();
+  _SplitViewState createState() => _SplitViewState();
 }
 
-class _VerticalSplitViewState extends State<VerticalSplitView> {
+class _SplitViewState extends State<SplitView> {
   final _dividerWidth = 16.0;
 
   //from 0-1
   late double _ratio;
   late double _maxWidth;
+  late int animationTime;
 
   get _width1 => _ratio * _maxWidth;
-  get _width2 => (1 - _ratio) * _maxWidth;
-
-  bool resizeAnimation = false;
+  // get _width2 => (1 - _ratio) * _maxWidth;
 
   @override
   void initState() {
     super.initState();
+    if (widget.resizeType == ResizeType.fixed) {
+      widget.animated = false;
+    }
+    if (widget.resizeType != ResizeType.fixed) {
+      animationTime = 500;
+    } else {
+      animationTime = 0;
+    }
     _ratio = widget.ratio;
   }
 
@@ -71,10 +84,10 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                if (resizeAnimation) {
+                if (widget.resizeType == ResizeType.resizeWithAnimation) {
                   setState(() {
-                    resizeAnimation = !resizeAnimation;
-                    if (resizeAnimation) {
+                    widget.isNavbarShrinked = !widget.isNavbarShrinked;
+                    if (widget.isNavbarShrinked) {
                       _ratio = widget.maxWidthRatio;
                     } else {
                       _ratio = widget.minWidthRatio;
@@ -84,12 +97,12 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
               },
               child: AnimatedContainer(
                 width: _width1,
-                duration: const Duration(milliseconds: 500),
+                duration: Duration(milliseconds: animationTime),
                 child: widget.left,
               ),
             ),
             MouseRegion(
-              cursor: widget.resizeable
+              cursor: widget.resizeType != ResizeType.fixed
                   ? SystemMouseCursors.resizeLeftRight
                   : MouseCursor.defer,
               child: GestureDetector(
@@ -103,11 +116,11 @@ class _VerticalSplitViewState extends State<VerticalSplitView> {
                   ),
                 ),
                 onPanUpdate: (DragUpdateDetails details) {
-                  if (widget.resizeable) {
+                  if (widget.resizeType != ResizeType.fixed) {
                     setState(() {
                       _ratio += details.delta.dx / _maxWidth;
                       // print("dx is ${details.delta.dx}  ratio is $_ratio");
-                      if (!widget.resizeToExtent) {
+                      if (widget.resizeType != ResizeType.resizeableToExtent) {
                         if (_ratio >= widget.maxWidthRatio)
                           _ratio = widget.maxWidthRatio;
 
