@@ -14,18 +14,37 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: SplitView(
-        resizeType: ResizeType.resizeWithAnimation,
-        splitViewMode: SplitViewMode.horizontal,
-        left: Navbar(
-          onNavBarHovered: (bool hovered) {
-            print(hovered);
-          },
-        ),
-        right: const MyHomePage(title: 'Title'),
-        ratio: 0.12,
-        maxWidthRatio: 0.24,
+      home: Homescreen(),
+    );
+  }
+}
+
+class Homescreen extends StatefulWidget {
+  Homescreen({Key? key}) : super(key: key);
+
+  @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
+  bool? shrinkNavbar;
+  @override
+  Widget build(BuildContext context) {
+    return SplitView(
+      resizeType: ResizeType.resizeWithAnimation,
+      splitViewMode: SplitViewMode.horizontal,
+      left: Navbar(
+        onNavBarHovered: (bool hovered) {
+          debugPrint("$hovered changed");
+          setState(() {
+            shrinkNavbar = hovered;
+          });
+        },
       ),
+      right: const MyHomePage(title: 'Title'),
+      ratio: 0.12,
+      maxWidthRatio: 0.24,
+      isNavbarShrinked: shrinkNavbar!,
     );
   }
 }

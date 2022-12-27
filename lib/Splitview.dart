@@ -10,24 +10,25 @@ class SplitView extends StatefulWidget {
   final double ratio;
   final ResizeType resizeType;
 
-  bool isNavbarShrinked = false;
-  bool? animated;
+  final bool isNavbarShrinked;
+  // bool? animated;
 
   final double minWidthRatio;
   final double maxWidthRatio;
   final SplitViewMode? splitViewMode;
 
-  SplitView({
-    required this.left,
-    required this.right,
-    this.ratio = 0.2,
-    this.maxWidthRatio = 0.5,
-    this.minWidthRatio = 0.1,
-    required this.splitViewMode,
-    required this.resizeType,
-  })  : assert(left != null),
-        assert(right != null),
-        assert(ratio >= 0 || ratio <= 1);
+  SplitView(
+      {Key? key,
+      required this.left,
+      required this.right,
+      required this.splitViewMode,
+      required this.resizeType,
+      this.ratio = 0.2,
+      this.minWidthRatio = 0.1,
+      this.maxWidthRatio = 0.5,
+      this.isNavbarShrinked = false})
+      : assert(ratio >= 0 || ratio <= 1),
+        super(key: key);
 
   @override
   _SplitViewState createState() => _SplitViewState();
@@ -45,12 +46,21 @@ class _SplitViewState extends State<SplitView> {
 
   @override
   void initState() {
+    print("initstate ${widget.isNavbarShrinked}");
     super.initState();
-    if (widget.resizeType == ResizeType.fixed) {
-      widget.animated = false;
-      animationTime = 0;
-    } else {
+    if (widget.resizeType == ResizeType.resizeWithAnimation) {
       animationTime = 500;
+    } else {
+      animationTime = 0;
+    }
+    if (widget.resizeType == ResizeType.resizeWithAnimation) {
+      setState(() {
+        if (widget.isNavbarShrinked!) {
+          _ratio = widget.maxWidthRatio;
+        } else {
+          _ratio = widget.minWidthRatio;
+        }
+      });
     }
     _ratio = widget.ratio;
   }
@@ -73,24 +83,10 @@ class _SplitViewState extends State<SplitView> {
         width: constraints.maxWidth,
         child: Row(
           children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                if (widget.resizeType == ResizeType.resizeWithAnimation) {
-                  setState(() {
-                    widget.isNavbarShrinked = !widget.isNavbarShrinked;
-                    if (widget.isNavbarShrinked) {
-                      _ratio = widget.maxWidthRatio;
-                    } else {
-                      _ratio = widget.minWidthRatio;
-                    }
-                  });
-                }
-              },
-              child: AnimatedContainer(
-                width: _width1,
-                duration: Duration(milliseconds: animationTime),
-                child: widget.left,
-              ),
+            AnimatedContainer(
+              width: _width1,
+              duration: Duration(milliseconds: animationTime),
+              child: widget.left,
             ),
             MouseRegion(
               cursor: widget.resizeType != ResizeType.fixed
@@ -112,15 +108,16 @@ class _SplitViewState extends State<SplitView> {
                       _ratio += details.delta.dx / _maxWidth;
                       // print("dx is ${details.delta.dx}  ratio is $_ratio");
                       if (widget.resizeType != ResizeType.resizeableToExtent) {
-                        if (_ratio >= widget.maxWidthRatio)
+                        if (_ratio >= widget.maxWidthRatio) {
                           _ratio = widget.maxWidthRatio;
-
-                        if (_ratio <= widget.minWidthRatio)
+                        }
+                        if (_ratio <= widget.minWidthRatio) {
                           _ratio = widget.minWidthRatio;
+                        }
                       }
-                      if (_ratio > 1)
+                      if (_ratio > 1) {
                         _ratio = 1;
-                      else if (_ratio < 0.0) {
+                      } else if (_ratio < 0.0) {
                         _ratio = 0.0;
                       }
                     });
