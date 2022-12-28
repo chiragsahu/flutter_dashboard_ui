@@ -24,15 +24,18 @@ class _NavbarButtonState extends State<NavbarButton> {
         builder: (BuildContext context, BoxConstraints constraints) {
           // print("constraint width is ${constraints.maxWidth}");
           return Padding(
-            padding: const EdgeInsets.fromLTRB(5.0, 10, 5, 10),
+            padding: const EdgeInsets.fromLTRB(0, 10, 5, 10),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.calendar_month,
-                    color: Colors.white,
+                  Expanded(
+                    flex: 1,
+                    child: Icon(
+                      Icons.calendar_month,
+                      color: Colors.white,
+                    ),
                   ),
                   if (constraints.maxWidth > 140) ...[
                     Expanded(

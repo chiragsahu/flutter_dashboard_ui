@@ -42,7 +42,7 @@ class _HomescreenState extends State<Homescreen> {
       ),
       right: const MyHomePage(title: 'Title'),
       ratio: 0.12,
-      maxWidthRatio: 0.24,
+      maxWidthRatio: 0.25,
       isNavbarShrinked: shrinkNavbar,
     );
   }

@@ -37,7 +37,7 @@ class _NavbarState extends State<Navbar> {
     NavbarData("Task List"),
     NavbarData("Settings", hasDropdown: true),
     NavbarData("Settings"),
-    NavbarData("Calendar")
+    NavbarData("Calendar"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -53,28 +53,18 @@ class _NavbarState extends State<Navbar> {
             widget.onNavBarHovered!(false);
           }
         },
-        child: Center(
-          child: Container(
-            color: const Color.fromARGB(255, 30, 41, 55),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
-              // child: Column(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   children: [
-              //   ],
-              // ),
-              child: ListView.builder(
-                itemCount: navBarDataList.length,
-                itemBuilder: (context, index) {
-                  return NavbarButton(
-                    text: navBarDataList[index].title!,
-                    hasDropdown: navBarDataList[index].hasDropdown ?? false,
-                  );
-                },
-                // children: navBarDataList
-                //     .map((e) => NavbarButton(text: e.title!))
-                //     .toList(),
-              ),
+        child: Container(
+          color: const Color.fromARGB(255, 30, 41, 55),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
+            child: ListView.builder(
+              itemCount: navBarDataList.length,
+              itemBuilder: (context, index) {
+                return NavbarButton(
+                  text: navBarDataList[index].title!,
+                  hasDropdown: navBarDataList[index].hasDropdown ?? false,
+                );
+              },
             ),
           ),
         ),

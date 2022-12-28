@@ -48,7 +48,7 @@ class _SplitViewState extends State<SplitView> {
   void initState() {
     super.initState();
     if (widget.resizeType == ResizeType.resizeWithAnimation) {
-      animationTime = 200;
+      animationTime = 100;
     } else {
       animationTime = 0;
     }
