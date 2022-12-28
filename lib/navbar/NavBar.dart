@@ -1,7 +1,14 @@
-// ignore_for_file: file_names, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:volt_dashboard/navbar/NavbarButton.dart';
+
+class NavbarData {
+  String? title;
+  bool? hasMessages;
+  bool? hasDropdown;
+  Function(bool)? hoverAction;
+  NavbarData(this.title,
+      {this.hasMessages, this.hasDropdown, this.hoverAction});
+}
 
 class Navbar extends StatefulWidget {
   const Navbar({Key? key, this.onNavBarHovered}) : super(key: key);
@@ -13,53 +20,61 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
+  final List<NavbarData> navBarDataList = [
+    NavbarData("Dashboard"),
+    NavbarData("Kanban"),
+    NavbarData("Messages"),
+    NavbarData("Users Lists"),
+    NavbarData("Transactions", hasDropdown: true),
+    NavbarData("Task List"),
+    NavbarData("Settings"),
+    NavbarData("Calendar"),
+    NavbarData("Dashboard"),
+    NavbarData("Kanban"),
+    NavbarData("Messages"),
+    NavbarData("Users Lists"),
+    NavbarData("Transactions"),
+    NavbarData("Task List"),
+    NavbarData("Settings", hasDropdown: true),
+    NavbarData("Settings"),
+    NavbarData("Calendar")
+  ];
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Center(
-        child: Container(
-          color: Color.fromARGB(255, 30, 41, 55),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                NavbarButton(
-                  "Dashboard",
-                  hoverAction: ((bool hovered) {
-                    if (widget.onNavBarHovered != null) {
-                      widget.onNavBarHovered!(hovered);
-                    }
-                  }),
-                  hoverCallback: true,
-                ),
-                NavbarButton(
-                  "Kanban",
-                  hoverAction: ((bool hovered) {
-                    if (widget.onNavBarHovered != null) {
-                      widget.onNavBarHovered!(hovered);
-                    }
-                  }),
-                ),
-                NavbarButton("Messages"),
-                NavbarButton("Users Lists"),
-                NavbarButton("Transactions", hasDropdown: true),
-                NavbarButton("Task List"),
-                NavbarButton("Settings"),
-                NavbarButton("Calendar"),
-                NavbarButton("Dashboard"),
-                NavbarButton("Kanban"),
-                NavbarButton("Messages"),
-                NavbarButton("Users Lists"),
-                NavbarButton("Transactions"),
-                NavbarButton("Task List"),
-                NavbarButton(
-                  "Settings",
-                  hasDropdown: true,
-                ),
-                NavbarButton("Settings"),
-                NavbarButton("Calendar"),
-              ],
+      child: MouseRegion(
+        onEnter: (event) {
+          if (widget.onNavBarHovered != null) {
+            widget.onNavBarHovered!(true);
+          }
+        },
+        onExit: (event) {
+          if (widget.onNavBarHovered != null) {
+            widget.onNavBarHovered!(false);
+          }
+        },
+        child: Center(
+          child: Container(
+            color: const Color.fromARGB(255, 30, 41, 55),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
+              // child: Column(
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   children: [
+              //   ],
+              // ),
+              child: ListView.builder(
+                itemCount: navBarDataList.length,
+                itemBuilder: (context, index) {
+                  return NavbarButton(
+                    text: navBarDataList[index].title!,
+                    hasDropdown: navBarDataList[index].hasDropdown ?? false,
+                  );
+                },
+                // children: navBarDataList
+                //     .map((e) => NavbarButton(text: e.title!))
+                //     .toList(),
+              ),
             ),
           ),
         ),

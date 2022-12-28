@@ -14,20 +14,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: Homescreen(),
+      home: const Homescreen(),
     );
   }
 }
 
 class Homescreen extends StatefulWidget {
-  Homescreen({Key? key}) : super(key: key);
+  const Homescreen({Key? key}) : super(key: key);
 
   @override
   State<Homescreen> createState() => _HomescreenState();
 }
 
 class _HomescreenState extends State<Homescreen> {
-  bool? shrinkNavbar;
+  late bool shrinkNavbar = false;
   @override
   Widget build(BuildContext context) {
     return SplitView(
@@ -35,7 +35,6 @@ class _HomescreenState extends State<Homescreen> {
       splitViewMode: SplitViewMode.horizontal,
       left: Navbar(
         onNavBarHovered: (bool hovered) {
-          debugPrint("$hovered changed");
           setState(() {
             shrinkNavbar = hovered;
           });
@@ -44,7 +43,7 @@ class _HomescreenState extends State<Homescreen> {
       right: const MyHomePage(title: 'Title'),
       ratio: 0.12,
       maxWidthRatio: 0.24,
-      isNavbarShrinked: shrinkNavbar!,
+      isNavbarShrinked: shrinkNavbar,
     );
   }
 }
@@ -69,16 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,

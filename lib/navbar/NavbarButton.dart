@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NavbarButton extends StatefulWidget {
-  const NavbarButton(this.text,
-      {Key? key,
-      this.hasMessages = false,
-      this.hasDropdown = false,
-      this.hoverAction,
-      this.hoverCallback = true})
-      : super(key: key);
+  const NavbarButton({
+    Key? key,
+    required this.text,
+    this.hasMessages = false,
+    this.hasDropdown = false,
+  }) : super(key: key);
   final bool hasMessages;
   final bool hasDropdown;
   final String text;
-  final bool hoverCallback;
-  final Function(bool)? hoverAction;
 
   @override
   State<NavbarButton> createState() => _NavbarButtonState();
@@ -23,16 +20,6 @@ class _NavbarButtonState extends State<NavbarButton> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (event) {
-        if (widget.hoverAction != null && widget.hoverCallback) {
-          widget.hoverAction!(true);
-        }
-      },
-      onExit: (event) {
-        if (widget.hoverAction != null && widget.hoverCallback) {
-          widget.hoverAction!(false);
-        }
-      },
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           // print("constraint width is ${constraints.maxWidth}");

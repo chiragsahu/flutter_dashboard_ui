@@ -35,7 +35,7 @@ class SplitView extends StatefulWidget {
 }
 
 class _SplitViewState extends State<SplitView> {
-  final _dividerWidth = 16.0;
+  final _dividerWidth = 5.0;
 
   //from 0-1
   late double _ratio;
@@ -46,21 +46,11 @@ class _SplitViewState extends State<SplitView> {
 
   @override
   void initState() {
-    print("initstate ${widget.isNavbarShrinked}");
     super.initState();
     if (widget.resizeType == ResizeType.resizeWithAnimation) {
-      animationTime = 500;
+      animationTime = 200;
     } else {
       animationTime = 0;
-    }
-    if (widget.resizeType == ResizeType.resizeWithAnimation) {
-      setState(() {
-        if (widget.isNavbarShrinked!) {
-          _ratio = widget.maxWidthRatio;
-        } else {
-          _ratio = widget.minWidthRatio;
-        }
-      });
     }
     _ratio = widget.ratio;
   }
@@ -71,6 +61,17 @@ class _SplitViewState extends State<SplitView> {
     setState(() {
       _maxWidth = screenWidth * 0.95;
     });
+
+    if (widget.resizeType == ResizeType.resizeWithAnimation) {
+      setState(() {
+        // widget.isNavbarShrinked ?? false;
+        if (widget.isNavbarShrinked) {
+          _ratio = widget.maxWidthRatio;
+        } else {
+          _ratio = widget.minWidthRatio;
+        }
+      });
+    }
     return LayoutBuilder(builder: (context, BoxConstraints constraints) {
       assert(_ratio >= 0 || _ratio <= 1);
       if (_maxWidth == null) _maxWidth = constraints.maxWidth - _dividerWidth;
