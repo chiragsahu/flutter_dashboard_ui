@@ -89,7 +89,7 @@ class _SplitViewState extends State<SplitView> {
               child: widget.left,
             ),
             MouseRegion(
-              cursor: widget.resizeType != ResizeType.fixed
+              cursor: widget.resizeType == ResizeType.resizeableToExtent
                   ? SystemMouseCursors.resizeLeftRight
                   : MouseCursor.defer,
               child: GestureDetector(

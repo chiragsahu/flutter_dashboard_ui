@@ -60,9 +60,17 @@ class _NavbarState extends State<Navbar> {
             child: ListView.builder(
               itemCount: navBarDataList.length,
               itemBuilder: (context, index) {
-                return NavbarButton(
-                  text: navBarDataList[index].title!,
-                  hasDropdown: navBarDataList[index].hasDropdown ?? false,
+                return Material(
+                  color: const Color.fromARGB(255, 30, 41, 55),
+                  child: InkWell(
+                    // splashColor: Theme.of(context).primaryColorLight,
+                    hoverColor: Colors.transparent,
+                    onTap: () {},
+                    child: NavbarButton(
+                      text: navBarDataList[index].title!,
+                      hasDropdown: navBarDataList[index].hasDropdown ?? false,
+                    ),
+                  ),
                 );
               },
             ),

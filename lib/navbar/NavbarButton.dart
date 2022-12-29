@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 enum NavbarState { collasped, expanded }
 
 class NavbarButton extends StatefulWidget {
-  NavbarButton({
+  const NavbarButton({
     Key? key,
     required this.text,
     this.hasMessages = false,
