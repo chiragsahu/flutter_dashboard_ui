@@ -25,7 +25,7 @@ class _NavbarState extends State<Navbar> {
     NavbarData("Kanban"),
     NavbarData("Messages"),
     NavbarData("Users Lists"),
-    NavbarData("Transactions", hasDropdown: true),
+    NavbarData("Transactions", hasDropdown: false),
     NavbarData("Task List"),
     NavbarData("Settings"),
     NavbarData("Calendar"),

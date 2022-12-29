@@ -11,13 +11,12 @@ class SplitView extends StatefulWidget {
   final ResizeType resizeType;
 
   final bool isNavbarShrinked;
-  // bool? animated;
 
   final double minWidthRatio;
   final double maxWidthRatio;
   final SplitViewMode? splitViewMode;
 
-  SplitView(
+  const SplitView(
       {Key? key,
       required this.left,
       required this.right,
@@ -74,7 +73,7 @@ class _SplitViewState extends State<SplitView> {
     }
     return LayoutBuilder(builder: (context, BoxConstraints constraints) {
       assert(_ratio >= 0 || _ratio <= 1);
-      if (_maxWidth == null) _maxWidth = constraints.maxWidth - _dividerWidth;
+      // _maxWidth ??= constraints.maxWidth - _dividerWidth;
       // _maxWidth = constraints.maxWidth - _dividerWidth;
       if (_maxWidth != constraints.maxWidth) {
         _maxWidth = constraints.maxWidth - _dividerWidth;
