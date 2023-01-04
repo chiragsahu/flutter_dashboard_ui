@@ -39,18 +39,14 @@ class _SplitViewState extends State<SplitView> {
   //from 0-1
   late double _ratio;
   late double _maxWidth;
-  late int animationTime;
+  late int animationTime =
+      widget.resizeType == ResizeType.resizeWithAnimation ? 200 : 0;
 
   get _width1 => _ratio * _maxWidth;
 
   @override
   void initState() {
     super.initState();
-    if (widget.resizeType == ResizeType.resizeWithAnimation) {
-      animationTime = 100;
-    } else {
-      animationTime = 0;
-    }
     _ratio = widget.ratio;
   }
 
